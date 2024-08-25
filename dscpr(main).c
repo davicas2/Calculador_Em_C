@@ -75,6 +75,35 @@ void DecimalParaHexa(int c){
   printf("\n\n");
 }
 
+void DecimalParaBCD(int c) {
+    int bcd[40];
+    int i = 0;
+
+    if (c == 0) {
+        printf("Resposta: 0000\n");
+        return;
+    }
+
+    while (c > 0) {
+        int resp = c % 10;
+        c = c / 10;
+        for (int j = 3; j >= 0; j--) {
+            if (resp % 2 == 1) {
+                bcd[i++] = 1; 
+            } else {
+                bcd[i++] = 0; 
+            }
+            resp /= 2; 
+        }
+    }
+
+    printf("Resposta: ");
+    for (int j = i - 1; j >= 0; j--) { 
+        printf("%d", bcd[j]); 
+    }
+    printf("\n\n");
+}
+
 int main(void) {
 
   int a = 0, b, c, d;
