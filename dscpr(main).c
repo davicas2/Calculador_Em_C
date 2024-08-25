@@ -2,15 +2,13 @@
 
 void DecimalParaBinario(int c){
 
-  int binario[8];
+  int binario[32];
   int i = 0;
 
   if(c==0){
     printf("Reposta: 0\n");
     return;
   }
-
-  if(c > 1)
 
   while(c>0){
     binario[i] = c % 2;
@@ -26,15 +24,13 @@ void DecimalParaBinario(int c){
 
 void DecimalParaOcta(int c){
 
-  int octa[16];
+  int octa[32];
   int i = 0;
 
   if(c==0){
     printf("Reposta: 0\n");
     return;
   }
-
-  if(c > 1)
 
   while(c>0){
     octa[i] = c % 8;
@@ -44,6 +40,37 @@ void DecimalParaOcta(int c){
   printf("Repsota:");
   for (int j = i - 1; j >= 0; j--){
     printf("%d", octa[j]);
+  }
+  printf("\n\n");
+}
+
+void DecimalParaHexa(int c){
+
+  char octa[32];
+  int i = 0;
+
+  if(c==0){
+    printf("Reposta: 0\n");
+    return;
+  }
+
+  while(c>0){
+    int resp = c % 16;  
+    if (resp < 10) {
+      octa[i] = '0' + resp;  
+    } else {
+      octa[i] = 'A' + (resp - 10);  
+    }
+    c = c / 16;
+    i++;
+    }
+
+  
+
+  printf("Repsota:");
+
+  for (int j = i - 1; j >= 0; j--){
+    printf("%c", octa[j]);
   }
   printf("\n\n");
 }
@@ -64,15 +91,27 @@ int main(void) {
       printf("Qual o numero que deseja converter\n");
       scanf("%d", &c);
       DecimalParaBinario(c); 
-      }
+    }
     if(b==2){
       printf("Qual o numero deseja converter\n");
       scanf("%d" , &c);
       DecimalParaOcta(c);
     }
+    if(b==3){
+      printf("Qual o numero deseja converter\n");
+      scanf("%d" , &c);
+      DecimalParaHexa(c);
     }
+    if(b==4){
+      printf("Qual o numero deseja converter\n");
+      scanf("%d" , &c);
+      DecimalParaBCD(c);
+    }
+  }
+    
   if(a==4){
     break;
   }
-  }
+    
+  }    
 } 
