@@ -114,10 +114,46 @@ void DecimalParaComplemento2(int c) {
     printf("\n\n");
 }
 
+void ImprimirBitsFloat(float f) {
+    int bits = *((int*)&f);
+    printf("Representação em bits do float:\n");
 
+    printf("  Bits: ");
+    for (int i = 31; i >= 0; i--) {
+        printf("%d", (bits >> i) & 1);
+        if (i % 8 == 0) printf(" ");
+    }
     printf("\n");
 
-    // Separar e imprimir os campos
+    int sinal = (bits >> 31) & 1;
+    int expoente = (bits >> 23) & 0xFF;
+    int fracao = bits & 0x7FFFFF;
+
+    printf("  Sinal: %d\n", sinal);
+    printf("  Expoente: ");
+    for (int i = 7; i >= 0; i--) {
+        printf("%d", (expoente >> i) & 1);
+    }
+    printf("\n");
+
+    printf("  Fração: ");
+    for (int i = 22; i >= 0; i--) {
+        printf("%d", (fracao >> i) & 1);
+    }
+    printf("\n\n");
+}
+
+void ImprimirBitsDouble(double d) {
+    char* bytes = (char*)&d;
+    printf("Representação em bits do double:\n");
+
+    printf("  Bits: ");
+    for (int i = 63; i >= 0; i--) {
+        printf("%d", (bytes[i / 8] >> (7 - i % 8)) & 1);
+        if (i % 8 == 0) printf(" "); 
+    }
+    printf("\n");
+
     int sinal = (bytes[7] >> 7) & 1;
     int expoente = ((bytes[7] & 0x7F) << 4) | (bytes[6] >> 4);
     int fracao = ((bytes[6] & 0x0F) << 16) | (bytes[5] << 8) | bytes[4];
@@ -180,7 +216,15 @@ int main(void) {
             printf("Digite o número que deseja converter:\n");
             scanf("%d", &numeroInteiro);
             DecimalParaComplemento2(numeroInteiro);
-        }  else if (escolha == 4) {
+        } else if (escolha == 3) {
+            printf("Digite o número float que deseja converter:\n");
+            scanf("%f", &numeroFloat);
+            ImprimirBitsFloat(numeroFloat);
+
+            printf("Digite o número double que deseja converter:\n");
+            scanf("%lf", &numeroDouble);
+            ImprimirBitsDouble(numeroDouble);
+        } else if (escolha == 4) {
             printf("Sair\n");
             break;
         } else {
