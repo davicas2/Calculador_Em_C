@@ -1,78 +1,72 @@
 #include <stdio.h>
 
-void DecimalParaBinario(int c){
+void DecimalParaBinario(int c) {
+    int binario[32];
+    int i = 0;
 
-  int binario[32];
-  int i = 0;
-
-  if(c==0){
-    printf("Reposta: 0\n");
-    return;
-  }
-
-  while(c>0){
-    binario[i] = c % 2;
-    c = c / 2;
-    i++;
-  }
-  printf("Repsota:");
-  for (int j = i - 1; j >= 0; j--){
-    printf("%d", binario[j]);
-  }
-  printf("\n\n");
-}
-
-void DecimalParaOcta(int c){
-
-  int octa[32];
-  int i = 0;
-
-  if(c==0){
-    printf("Reposta: 0\n");
-    return;
-  }
-
-  while(c>0){
-    octa[i] = c % 8;
-    c = c / 8;
-    i++;
-  }
-  printf("Repsota:");
-  for (int j = i - 1; j >= 0; j--){
-    printf("%d", octa[j]);
-  }
-  printf("\n\n");
-}
-
-void DecimalParaHexa(int c){
-
-  char octa[32];
-  int i = 0;
-
-  if(c==0){
-    printf("Reposta: 0\n");
-    return;
-  }
-
-  while(c>0){
-    int resp = c % 16;  
-    if (resp < 10) {
-      octa[i] = '0' + resp;  
-    } else {
-      octa[i] = 'A' + (resp - 10);  
-    }
-    c = c / 16;
-    i++;
+    if (c == 0) {
+        printf("Resposta: 0\n");
+        return;
     }
 
-  
+    while (c > 0) {
+        binario[i] = c % 2;
+        c = c / 2;
+        i++;
+    }
+    printf("Resposta: ");
+    for (int j = i - 1; j >= 0; j--) {
+        printf("%d", binario[j]);
+    }
+    printf("\n\n");
+}
 
-  printf("Repsota:");
+void DecimalParaOcta(int c) {
+    int octa[32];
+    int i = 0;
 
-  for (int j = i - 1; j >= 0; j--){
-    printf("%c", octa[j]);
-  }
-  printf("\n\n");
+    if (c == 0) {
+        printf("Resposta: 0\n");
+        return;
+    }
+
+    while (c > 0) {
+        octa[i] = c % 8;
+        c = c / 8;
+        i++;
+    }
+    printf("Resposta: ");
+    for (int j = i - 1; j >= 0; j--) {
+        printf("%d", octa[j]);
+    }
+    printf("\n\n");
+}
+
+void DecimalParaHexa(int c) {
+    char hexa[32];
+    int i = 0;
+
+    if (c == 0) {
+        printf("Resposta: 0\n");
+        return;
+    }
+
+    while (c > 0) {
+        int resp = c % 16;
+        if (resp < 10) {
+            hexa[i] = '0' + resp;
+        } else {
+            hexa[i] = 'A' + (resp - 10);
+        }
+        c = c / 16;
+        i++;
+    }
+
+    printf("Resposta: ");
+    for (int j = i - 1; j >= 0; j--) {
+        printf("%c", hexa[j]);
+    }
+    printf("\n\n");
 }
 
 void DecimalParaBCD(int c) {
@@ -88,59 +82,111 @@ void DecimalParaBCD(int c) {
         int resp = c % 10;
         c = c / 10;
         for (int j = 3; j >= 0; j--) {
-            if (resp % 2 == 1) {
-                bcd[i++] = 1; 
-            } else {
-                bcd[i++] = 0; 
-            }
-            resp /= 2; 
+            bcd[i++] = (resp % 2);
+            resp /= 2;
         }
     }
 
     printf("Resposta: ");
-    for (int j = i - 1; j >= 0; j--) { 
-        printf("%d", bcd[j]); 
+    for (int j = i - 1; j >= 0; j--) {
+        printf("%d", bcd[j]);
+    }
+    printf("\n\n");
+}
+
+void DecimalParaComplemento2(int c) {
+    int bits = 16;
+    int binario[16];
+
+    if (c < 0) {
+        c = (1 << bits) + c;
+    }
+
+    for (int i = bits - 1; i >= 0; i--) {
+        binario[i] = c % 2;
+        c = c / 2;
+    }
+
+    printf("Resposta (complemento a 2): ");
+    for (int i = 0; i < bits; i++) {
+        printf("%d", binario[i]);
+    }
+    printf("\n\n");
+}
+
+
+    printf("\n");
+
+    // Separar e imprimir os campos
+    int sinal = (bytes[7] >> 7) & 1;
+    int expoente = ((bytes[7] & 0x7F) << 4) | (bytes[6] >> 4);
+    int fracao = ((bytes[6] & 0x0F) << 16) | (bytes[5] << 8) | bytes[4];
+
+    printf("  Sinal: %d\n", sinal);
+    printf("  Expoente: ");
+    for (int i = 10; i >= 0; i--) {
+        printf("%d", (expoente >> i) & 1);
+    }
+    printf("\n");
+
+    printf("  Fração: ");
+    for (int i = 51; i >= 0; i--) {
+        printf("%d", (fracao >> i) & 1);
     }
     printf("\n\n");
 }
 
 int main(void) {
+    int escolha = 0, base;
+    int numeroInteiro;
+    float numeroFloat;
+    double numeroDouble;
 
-  int a = 0, b, c, d;
-  int respb = 0;
+    while (escolha != 4) {
+        printf("Escolha a operação desejada:\n");
+        printf("1 - Converter de base 10 para outra base\n");
+        printf("2 - Converter de base 10 para base com sinal com 16 bits (complemento 2)\n");
+        printf("3 - Converter e exibir float e double\n");
+        printf("4 - Sair\n");
+        scanf("%d", &escolha);
 
-  while(a!=4){
-  printf("Qual operação voce deseja fazer\n1-De base 2 para outra base\n2- De base 10 para base com sinal com 16 bits(complemento 2)\n3-Float e Double\n4-Sair\n");
-  scanf("%d", &a);
+        if (escolha == 1) {
+            printf("Escolha a base desejada:\n");
+            printf("1 - Binário (Base 2)\n");
+            printf("2 - Octal (Base 8)\n");
+            printf("3 - Hexadecimal (Base 16)\n");
+            printf("4 - Código BCD\n");
+            scanf("%d", &base);
+            printf("Digite o número que deseja converter:\n");
+            scanf("%d", &numeroInteiro);
 
-  if (a == 1){
-    printf("Qual base voce deseja escolher\n1-Binario(Base 2 )\n2-Octa(Base 8)\n3-Hexa(Base 16)\n4-Codigo BCD\n");
-    scanf("%d", &b);
-    if(b==1){
-      printf("Qual o numero que deseja converter\n");
-      scanf("%d", &c);
-      DecimalParaBinario(c); 
+            switch (base) {
+                case 1:
+                    DecimalParaBinario(numeroInteiro);
+                    break;
+                case 2:
+                    DecimalParaOcta(numeroInteiro);
+                    break;
+                case 3:
+                    DecimalParaHexa(numeroInteiro);
+                    break;
+                case 4:
+                    DecimalParaBCD(numeroInteiro);
+                    break;
+                default:
+                    printf("Opção inválida.\n\n");
+            }
+        } else if (escolha == 2) {
+            printf("Digite o número que deseja converter:\n");
+            scanf("%d", &numeroInteiro);
+            DecimalParaComplemento2(numeroInteiro);
+        }  else if (escolha == 4) {
+            printf("Sair\n");
+            break;
+        } else {
+            printf("Opção inválida.\n\n");
+        }
     }
-    if(b==2){
-      printf("Qual o numero deseja converter\n");
-      scanf("%d" , &c);
-      DecimalParaOcta(c);
-    }
-    if(b==3){
-      printf("Qual o numero deseja converter\n");
-      scanf("%d" , &c);
-      DecimalParaHexa(c);
-    }
-    if(b==4){
-      printf("Qual o numero deseja converter\n");
-      scanf("%d" , &c);
-      DecimalParaBCD(c);
-    }
-  }
-    
-  if(a==4){
-    break;
-  }
-    
-  }    
-} 
+
+    return 0;
+}
